@@ -1,0 +1,47 @@
+/**
+ * 12/16/22 by Lanu Atatai solution in Java for Leetcode problem https://leetcode.com/problems/add-two-numbers/description/
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode tempHead = new ListNode(0);
+        ListNode l3 = tempHead;     
+
+        int carryOver = 0;      //var incase the sum is greater than 9. if so this var will be used to carry over the extra digit to the next node.
+
+        while(l1 != null || l2 != null){    //loop conditional that will run until both two listNodes are empty
+            int firstNode, secondNode, sum, thirdNode;  //firstNode, secondNode, thirdNode var to hold the first, second, and third listNode value respectively
+                                                        //sum var to hold the total of the two ListNode values to be used to calculate if a carry digit exists
+            if(l1 != null){firstNode = l1.val;}     //conditional to see if this listNode is not empty  to use give it's value to the firstNode var -- otherwise it will be given the value '0'
+            else{firstNode = 0;}    
+
+            if(l2 != null){secondNode = l2.val;}    //conditional to see if this listNode is not empty  to use give it's value to the secondNode var -- otherwise it will be given the value '0'
+            else{secondNode = 0;}
+
+            sum = firstNode + secondNode + carryOver; //addition of the two current nodes with a potential carry digit
+            thirdNode = sum % 10;          //calculation on what the current node value for the 3rd Listnode
+            carryOver = sum / 10;               //calculation if there is a carry over digit to go to the next node
+
+            ListNode tempNode = new ListNode(thirdNode);    //creation of a temporary node to store the thirdNode var that will be added to the third ListNode
+            l3.next = tempNode;
+
+            if(l1 != null){l1 = l1.next;}   //conditional to determine if the two listNodes are empty or not, and if they are not, it will point to the next node
+            if(l2 != null){l2 = l2.next;}
+            l3 = l3.next;
+            
+        }
+        if(carryOver > 0){  //conditional to see if there is a remaining value in 'carryOver' that still needs to be added to the third ListNode
+            ListNode tempNode = new ListNode(carryOver);
+            l3.next = tempNode;
+        }
+
+        return tempHead.next;   //The returning of the sum of the two ListNodes as a third ListNode
+    }
+}
